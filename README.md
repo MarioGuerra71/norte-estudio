@@ -1,6 +1,6 @@
 # Norte Estudio · web de un estudio de arquitectura
 
-**Demo:** https://norte-estudio.vercel.app
+**Demo:** https://norte-estudio-gamma.vercel.app
 
 Web de un estudio de arquitectura **ficticio** de Sevilla, hecha como pieza de portfolio. Los proyectos, las personas, los datos y la dirección son inventados. Las fotos son de Unsplash y muestran edificios que no tienen relación con estos proyectos.
 

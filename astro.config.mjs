@@ -3,7 +3,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   // URL de producción en Vercel (canonical y og:image)
-  site: "https://norte-estudio.vercel.app",
+  site: "https://norte-estudio-gamma.vercel.app",
   trailingSlash: "never",
   build: { inlineStylesheets: "never", format: "file" },
   security: {
