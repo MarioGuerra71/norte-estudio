@@ -30,7 +30,7 @@ const principles = [
     <Photo name={hero.hero} alt={hero.alts[hero.hero]} sizes="100vw" eager class={`grow vt-${hero.slug}`} />
     <span class="wrap hero-cap small">
       <span>{hero.title}</span>
-      <span class="muted">{hero.place} · {hero.year}</span>
+      <span class="muted">{hero.place} · <span class="num">{hero.year}</span></span>
     </span>
   </a>
 

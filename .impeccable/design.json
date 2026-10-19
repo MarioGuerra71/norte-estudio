@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-19T12:00:00Z",
+  "title": "Design System: Norte Estudio",
+  "extensions": {
+    "colorMeta": {
+      "ladrillo": { "role": "primary", "displayName": "Brick", "canonical": "oklch(51.6% 0.111 40)", "tonalRamp": ["#2b0000", "#4c0100", "#6d2505", "#904428", "#b46548", "#d98668", "#ffab8d", "#ffd6b6"] },
+      "cal": { "role": "neutral", "displayName": "Lime White", "canonical": "oklch(96.5% 0.006 84)", "tonalRamp": ["#0c0b09", "#252421", "#413f3c", "#5f5d5a", "#7f7d79", "#a09e9a", "#c6c4c0", "#f0eeea"] },
+      "papel": { "role": "neutral", "displayName": "Paper", "canonical": "oklch(98.5% 0.003 84)", "tonalRamp": ["#0c0b0a", "#252422", "#40403e", "#5e5d5c", "#7e7d7b", "#9f9e9c", "#c5c4c2", "#efeeec"] },
+      "grafito": { "role": "neutral", "displayName": "Graphite", "canonical": "oklch(22.2% 0.004 84)", "tonalRamp": ["#0c0b09", "#252422", "#41403d", "#5f5d5b", "#7e7d7a", "#9f9e9b", "#c5c4c1", "#f0eeeb"] },
+      "gris": { "role": "neutral", "displayName": "Warm Grey", "canonical": "oklch(44.4% 0.011 78)", "tonalRamp": ["#0e0b06", "#27231e", "#433f39", "#615d57", "#817d76", "#a29e97", "#c8c3bc", "#f3eee6"] },
+      "piedra": { "role": "neutral", "displayName": "Stone (hairlines only)", "canonical": "oklch(83.5% 0.017 79)", "tonalRamp": ["#0f0a04", "#28231b", "#453f36", "#635d53", "#837c72", "#a49d93", "#cac3b8", "#f5ede2"] },
+      "borde-campo": { "role": "neutral", "displayName": "Field Border", "canonical": "oklch(61.3% 0.018 79)", "tonalRamp": ["#0f0a04", "#29231a", "#453f35", "#635d52", "#837c71", "#a59d92", "#cbc3b7", "#f5ede1"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "One per page: the statement or project name (.h-display)." },
+      "headline": { "displayName": "Headline", "purpose": "Section heads and the closing call line (.h-section)." },
+      "title": { "displayName": "Title", "purpose": "Project titles in index rows, featured titles, pager titles, team names." },
+      "lead": { "displayName": "Lead", "purpose": "Subtitle under a display head, opening paragraph of project text; max 44ch (.lead)." },
+      "body": { "displayName": "Body", "purpose": "Running text, about 62ch in project texts." },
+      "label": { "displayName": "Label", "purpose": "Captions, fact labels, metadata, hints; sentence case." },
+      "figures": { "displayName": "Tabular Figures", "purpose": "Years, areas, index and step numbers only (.num)." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Shared ease-out curve: page morph, arrow nudge, index title shift." },
+      { "name": "state-colour", "value": "160ms ease", "purpose": "Colour and background changes on links, buttons and index rows." },
+      { "name": "view-transition-morph", "value": "@view-transition { navigation: auto } ; ::view-transition-group(*) 520ms var(--ease)", "purpose": "Cross-document morph of a project photo (view-transition-name per vt-<slug>) into its project hero and back. Only under prefers-reduced-motion: no-preference." },
+      { "name": "reveal", "value": "opacity 0 + translate 0 1.5rem -> none; animation-timeline: view(); range entry 0% cover 25%", "purpose": "Section and list item fade-up on scroll. Gated by no-preference and @supports (animation-timeline: view())." },
+      { "name": "grow", "value": "clip-path inset(0 6% 0 6%) -> inset(0); animation-timeline: view(); range entry 0% cover 45%", "purpose": "Full-bleed photographs open to full width on scroll. Same gating as reveal." },
+      { "name": "index-preview", "value": "opacity 260ms ease; title translate 0.5rem 260ms var(--ease)", "purpose": "Desktop project index hover/focus preview." }
+    ],
+    "breakpoints": [
+      { "name": "form-pairs", "value": "40rem" },
+      { "name": "md", "value": "48rem" },
+      { "name": "lg", "value": "64rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Graphite rectangle for the contact action and form submit; brick on hover.",
+      "html": "<button class=\"ds-btn\">Cuéntanos tu proyecto <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg></button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 3rem; padding: 0 1.5rem; border: 1px solid var(--grafito, #1c1b19); border-radius: 0; background: var(--grafito, #1c1b19); color: var(--cal, #f5f3ef); font: inherit; font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); font-weight: 500; cursor: pointer; transition: background-color 160ms ease, color 160ms ease; } .ds-btn:hover { background: var(--ladrillo, #9c4f33); border-color: var(--ladrillo, #9c4f33); } .ds-btn:focus-visible { outline: 2px solid var(--ladrillo, #9c4f33); outline-offset: 3px; }"
+    },
+    {
+      "name": "Arrow Link",
+      "kind": "custom",
+      "refersTo": "link-arrow",
+      "description": "Underlined text link with a trailing arrow that nudges right on hover.",
+      "html": "<a href=\"#\" class=\"ds-link-arrow\">Ver proyectos <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg></a>",
+      "css": ".ds-link-arrow { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; color: var(--grafito, #1c1b19); font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; transition: color 160ms ease; } .ds-link-arrow svg { transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-link-arrow:hover { color: var(--ladrillo, #9c4f33); } .ds-link-arrow:hover svg { transform: translateX(3px); } .ds-link-arrow:focus-visible { outline: 2px solid var(--ladrillo, #9c4f33); outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Label above a square paper field with a 3:1 border; brick outline on focus, brick border and message on error.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-name\">Nombre</label><input id=\"ds-name\" /></div><div class=\"ds-field\"><label for=\"ds-mail\">Correo</label><input id=\"ds-mail\" aria-invalid=\"true\" value=\"hola@\" /><p class=\"ds-err\">Escribe un correo válido.</p></div>",
+      "css": ".ds-field { display: grid; gap: 0.4rem; margin-bottom: 1.4rem; font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); color: var(--grafito, #1c1b19); } .ds-field label { font-weight: 500; font-size: 0.9375rem; } .ds-field input { width: 100%; min-height: 3rem; padding: 0.65rem 0.8rem; border: 1px solid var(--borde-campo, #8a8378); border-radius: 0; background: var(--papel, #fbfaf8); color: var(--grafito, #1c1b19); font: inherit; } .ds-field input:hover { border-color: var(--gris, #57534d); } .ds-field input:focus-visible { outline: 2px solid var(--ladrillo, #9c4f33); outline-offset: 1px; border-color: var(--grafito, #1c1b19); } .ds-field input[aria-invalid='true'] { border-color: var(--ladrillo, #9c4f33); } .ds-err { margin: 0; font-size: 0.875rem; color: var(--ladrillo, #9c4f33); }"
+    },
+    {
+      "name": "Site Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Wordmark left, three always-visible text links right; current page in brick with underline.",
+      "html": "<header class=\"ds-header\"><a href=\"#\" class=\"ds-wordmark\">Norte</a><nav><ul><li><a href=\"#\" aria-current=\"page\">Proyectos</a></li><li><a href=\"#\">Estudio</a></li><li><a href=\"#\">Contacto</a></li></ul></nav></header>",
+      "css": ".ds-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); color: var(--grafito, #1c1b19); } .ds-header a { color: inherit; transition: color 160ms ease; } .ds-wordmark { font-weight: 600; font-size: 1.25rem; letter-spacing: -0.03em; text-decoration: none; } .ds-header ul { display: flex; gap: clamp(0.75rem, 2.5vw, 2.25rem); margin: 0; padding: 0; list-style: none; } .ds-header nav a { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: none; font-size: 0.9375rem; } .ds-header a:hover { color: var(--ladrillo, #9c4f33); } .ds-header nav a[aria-current='page'] { color: var(--ladrillo, #9c4f33); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; } .ds-header a:focus-visible { outline: 2px solid var(--ladrillo, #9c4f33); outline-offset: 3px; }"
+    },
+    {
+      "name": "Facts List",
+      "kind": "custom",
+      "description": "Monograph plate note: label/value rows on stone hairlines, tabular figures on numbers.",
+      "html": "<dl class=\"ds-facts\"><div><dt>Ubicación</dt><dd>Carmona, Sevilla</dd></div><div><dt>Año</dt><dd class=\"ds-num\">2025</dd></div><div><dt>Superficie</dt><dd class=\"ds-num\">214 m²</dd></div><div><dt>Estado</dt><dd>Construido</dd></div></dl>",
+      "css": ".ds-facts { margin: 0; display: grid; border-bottom: 1px solid var(--piedra, #cfc8bd); font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); color: var(--grafito, #1c1b19); } .ds-facts > div { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; padding-block: 0.7rem; border-top: 1px solid var(--piedra, #cfc8bd); } .ds-facts dt { color: var(--gris, #57534d); font-size: 0.9375rem; } .ds-facts dd { margin: 0; } .ds-num { font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Project Index Row",
+      "kind": "custom",
+      "description": "Numbered typographic index row; hover or focus turns it brick and shifts the title. Desktop photo preview is a CSS-positioned image beside the list (not reproduced here).",
+      "html": "<ol class=\"ds-index\"><li><a href=\"#\"><span class=\"n\">01</span><span class=\"t\">Casa Patio</span><span class=\"m\">Carmona, Sevilla</span><span class=\"y\">2025</span><span class=\"a\">214 m²</span></a></li><li><a href=\"#\"><span class=\"n\">02</span><span class=\"t\">Viviendas Celosía</span><span class=\"m\">Triana, Sevilla</span><span class=\"y\">2024</span><span class=\"a\">3180 m²</span></a></li></ol>",
+      "css": ".ds-index { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--piedra, #cfc8bd); font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); color: var(--grafito, #1c1b19); } .ds-index a { display: grid; grid-template-columns: 3rem 1fr 12rem 4rem 6rem; align-items: center; column-gap: 1rem; padding-block: 1.15rem; border-top: 1px solid var(--piedra, #cfc8bd); color: inherit; text-decoration: none; transition: color 160ms ease; } .ds-index .n, .ds-index .m, .ds-index .y, .ds-index .a { color: var(--gris, #57534d); } .ds-index .n, .ds-index .y, .ds-index .a { font-variant-numeric: tabular-nums; } .ds-index .m, .ds-index .a { font-size: 0.9375rem; } .ds-index .y, .ds-index .a { text-align: right; } .ds-index .t { font-size: clamp(1.375rem, 1.9vw, 1.75rem); font-weight: 500; letter-spacing: -0.015em; transition: translate 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-index a:hover, .ds-index a:focus-visible { color: var(--ladrillo, #9c4f33); } .ds-index a:hover .t, .ds-index a:focus-visible .t { translate: 0.5rem 0; } .ds-index a:focus-visible { outline: 2px solid var(--ladrillo, #9c4f33); outline-offset: -3px; }"
+    },
+    {
+      "name": "Pager",
+      "kind": "nav",
+      "description": "Previous/next project under a graphite rule.",
+      "html": "<nav class=\"ds-pager\"><a href=\"#\"><span class=\"l\">Anterior</span><span class=\"pt\">Casa Patio</span></a><a href=\"#\" class=\"nx\"><span class=\"l\">Siguiente</span><span class=\"pt\">Casa en el Aljarafe <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg></span></a></nav>",
+      "css": ".ds-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--grafito, #1c1b19); font-family: var(--sans, 'Schibsted Grotesk Variable', system-ui, sans-serif); color: var(--grafito, #1c1b19); } .ds-pager a { display: grid; align-content: start; gap: 0.25rem; padding-top: 1.1rem; color: inherit; text-decoration: none; transition: color 160ms ease; } .ds-pager a:hover { color: var(--ladrillo, #9c4f33); } .ds-pager a:focus-visible { outline: 2px solid var(--ladrillo, #9c4f33); outline-offset: 3px; } .ds-pager .nx { text-align: right; justify-items: end; } .ds-pager .l { font-size: 0.875rem; color: var(--gris, #57534d); } .ds-pager .pt { display: inline-flex; align-items: center; gap: 0.5rem; font-size: clamp(1.25rem, 2vw, 1.625rem); font-weight: 500; letter-spacing: -0.02em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Studio Monograph",
+    "overview": "The site is set like a printed architecture monograph: each building shown big, labeled with plain facts, and the interface behaving like turning pages. Lime-white paper, graphite ink, stone-coloured hairlines and a single brick accent that appears only when something is current, hovered, focused or wrong. Type is one grotesk at a moderate scale with tight tracking; nothing shouts.\n\nDensity is low and the rhythm is generous: sections are separated by a large fluid gap, content sits on a strict 12-column grid, and photographs either run full bleed or occupy whole column spans. There are no cards, no shadows and no rounded corners. Structure comes from 1px rules: stone for quiet division, graphite for the start of a significant block.\n\nMotion is native and quiet: a cross-document view transition morphs a project photograph from the index into the project page hero, and scroll-driven reveals fade sections up and open photographs from a slight inset. No loops, no JavaScript animation, and everything holds still under reduced motion.",
+    "keyCharacteristics": [
+      "Lime-white ground, graphite text, one brick accent reserved for state.",
+      "One typeface (Schibsted Grotesk Variable) at weight 500 with negative tracking for every heading.",
+      "Square corners, flat surfaces, structure drawn with 1px hairlines.",
+      "Photographs full bleed or on whole 12-column spans; captions and facts set like plate notes.",
+      "Native motion only: view-transition morph and scroll-driven reveals, gated by reduced motion."
+    ],
+    "rules": [
+      { "name": "The State-Only Brick Rule", "body": "Brick appears only as a response: current, hover, focus, caret, error. If a screen at rest shows brick anywhere except the current nav link, it is wrong.", "section": "colors" },
+      { "name": "The Two Hairlines Rule", "body": "Stone draws quiet division between repeated rows; graphite marks the top edge of a new, weighted block. Field borders use their own stronger token, never stone.", "section": "colors" },
+      { "name": "The Moderate Scale Rule", "body": "The largest type on the site is the display head at 4.25rem. No hero type beyond that, no thin weights, no all-caps.", "section": "typography" },
+      { "name": "The Tabular Figures Rule", "body": "Tabular figures apply only to numbers that line up or compare: years, areas, index numbers, step numbers. Never set prose in tabular figures.", "section": "typography" },
+      { "name": "The Flat Plate Rule", "body": "Surfaces never lift. Hover changes colour or position by a few pixels, never adds a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep brick for state only: current page, hover, focus, caret, errors.",
+      "Do set every heading in Schibsted Grotesk at weight 500 with negative tracking, and cap display type at the h-display scale.",
+      "Do place content on the 12-column grid inside the 90rem wrap; let photographs run full bleed or span whole columns.",
+      "Do divide repeated rows with 1px stone hairlines and open weighted blocks with a 1px graphite rule.",
+      "Do present project data as a facts list with tabular figures on years and areas.",
+      "Do give every new project photo a `vt-<slug>` view-transition name so it morphs into its page.",
+      "Do keep interactive targets at least 2.75rem tall and field borders on the field-border token."
+    ],
+    "donts": [
+      "Don't use shadows, cards or rounded corners anywhere.",
+      "Don't use stone for text or form-field borders; it is below 3:1 and exists for hairlines only.",
+      "Don't add a second accent colour or use brick as a decorative fill.",
+      "Don't set oversized or thin display type, all-caps headings, or letter-spaced uppercase labels above headings.",
+      "Don't add looping animation or JavaScript-driven motion; motion is the page morph and the scroll reveals, all off under reduced motion.",
+      "Don't hide the main navigation behind a hamburger menu."
+    ]
+  }
+}
