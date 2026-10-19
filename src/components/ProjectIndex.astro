@@ -1,0 +1,149 @@
+---
+// Índice tipográfico de proyectos. En escritorio, pasar el ratón (o el foco) por una fila muestra su foto
+// a la derecha, solo con CSS. En móvil cada fila lleva una miniatura.
+import { Picture } from "astro:assets";
+import { projects, formatArea } from "../data/projects.js";
+import { images } from "../lib/images.js";
+
+interface Props {
+  // La foto "viaja" a la página del proyecto; desactivar si ya hay otra foto con el mismo nombre en la página
+  transitions?: boolean;
+}
+const { transitions = true } = Astro.props;
+---
+
+<ol class="index">
+  {
+    projects.map((p, i) => (
+      <li class="row">
+        <a href={`/proyectos/${p.slug}`}>
+          <span class="n num muted">{String(i + 1).padStart(2, "0")}</span>
+          <span class="t">{p.title}</span>
+          <span class="m muted">{p.place}</span>
+          <span class="y num muted">{p.year}</span>
+          <span class="a num muted">{formatArea(p.area)}</span>
+          <span class:list={["thumb", transitions && `vt-${p.slug}`]} aria-hidden="true">
+            <Picture src={images[p.hero]} alt="" widths={[240, 480, 900]} sizes="(min-width: 64rem) 34vw, 96px" formats={["avif", "webp"]} quality={65} loading="lazy" decoding="async" />
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .index {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--piedra);
+  }
+
+  .row a {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr auto;
+    grid-template-areas: "thumb t y" "thumb m a";
+    align-items: center;
+    column-gap: 1rem;
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--piedra);
+    text-decoration: none;
+  }
+
+  .n {
+    display: none;
+  }
+
+  .t {
+    grid-area: t;
+    font-size: 1.1875rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  .m {
+    grid-area: m;
+    font-size: 0.9375rem;
+  }
+
+  .y {
+    grid-area: y;
+    text-align: right;
+  }
+
+  .a {
+    grid-area: a;
+    text-align: right;
+    font-size: 0.9375rem;
+  }
+
+  .thumb {
+    grid-area: thumb;
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 64rem) {
+    .index {
+      width: 58%;
+      min-height: 26rem;
+    }
+
+    .row a {
+      grid-template-columns: 3rem 1fr 14rem 4rem 6rem;
+      grid-template-areas: "n t m y a";
+      padding-block: 1.15rem;
+      transition: color 160ms ease;
+    }
+
+    .n {
+      display: block;
+      grid-area: n;
+    }
+
+    .t {
+      font-size: clamp(1.375rem, 1.9vw, 1.75rem);
+    }
+
+    .t {
+      transition: translate 260ms var(--ease);
+    }
+
+    .row a:hover,
+    .row a:focus-visible {
+      color: var(--ladrillo);
+    }
+
+    .row a:hover .t,
+    .row a:focus-visible .t {
+      translate: 0.5rem 0;
+    }
+
+    /* Ocupa justo la columna libre a la derecha (42 % del ancho) y la altura de la lista */
+    .thumb {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(100% + 2.5rem);
+      width: calc(100% * 42 / 58 - 2.5rem);
+      aspect-ratio: auto;
+      opacity: 0;
+      transition: opacity 260ms ease;
+      pointer-events: none;
+    }
+
+    .row a:hover .thumb,
+    .row a:focus-visible .thumb,
+    .index:not(:hover):not(:focus-within) .row:first-child .thumb {
+      opacity: 1;
+    }
+  }
+</style>

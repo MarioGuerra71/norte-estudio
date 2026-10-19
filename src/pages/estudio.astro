@@ -1,0 +1,165 @@
+---
+import Base from "../layouts/Base.astro";
+import Photo from "../components/Photo.astro";
+import Arrow from "../components/Arrow.astro";
+import { team } from "../data/projects.js";
+
+const steps = [
+  ["Escuchar", "Visitamos el lugar con vosotros, medimos y fotografiamos lo que hay. Antes de dibujar, entendemos cómo se vive allí."],
+  ["Dibujar", "Anteproyecto con dos o tres alternativas, maquetas de trabajo y un presupuesto estimado desde el principio."],
+  ["Construir", "Proyecto de ejecución, licencia y dirección de obra. Vamos a obra cada semana hasta la entrega de llaves."],
+];
+---
+
+<Base title="Estudio · Norte Estudio (demo)" description="Norte Estudio es un estudio de arquitectura de cuatro personas en Sevilla. Quiénes somos y cómo trabajamos. Estudio ficticio de demostración.">
+  <section class="wrap head grid">
+    <h1 class="h-display">Un estudio pequeño, a propósito.</h1>
+    <div class="intro">
+      <p class="lead">
+        Somos cuatro personas en un bajo de la calle Feria. Hacemos pocos proyectos a la vez para poder estar en cada
+        obra.
+      </p>
+      <p class="muted">
+        Trabajamos sobre todo en Sevilla y Huelva: casas, rehabilitaciones y algún edificio público por concurso. Nos
+        interesa la arquitectura que se adapta al clima sin máquinas y que se puede reparar.
+      </p>
+    </div>
+  </section>
+
+  <Photo name="luz-2" alt="Pasillo curvo iluminado de forma indirecta" sizes="100vw" credit class="wide grow" />
+
+  <section class="wrap steps" aria-labelledby="st-title">
+    <h2 id="st-title" class="h-section">Del primer café a la entrega de llaves</h2>
+    <ol class="grid">
+      {
+        steps.map(([t, d], i) => (
+          <li class="reveal">
+            <span class="num muted small">{i + 1} de {steps.length}</span>
+            <h3>{t}</h3>
+            <p class="muted">{d}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="wrap team" aria-labelledby="tm-title">
+    <h2 id="tm-title" class="h-section">Equipo</h2>
+    <ul>
+      {
+        team.map((m) => (
+          <li>
+            <span class="tn">{m.name}</span>
+            <span class="muted">{m.role}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="small muted note">Nombres ficticios: este estudio es un proyecto de demostración.</p>
+  </section>
+
+  <section class="wrap cta">
+    <a href="/contacto" class="btn">Escríbenos <Arrow /></a>
+  </section>
+</Base>
+
+<style>
+  .head {
+    row-gap: 2rem;
+    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .head h1,
+  .intro {
+    grid-column: 1 / -1;
+  }
+
+  .intro {
+    display: grid;
+    gap: 1rem;
+    max-width: 40rem;
+  }
+
+  @media (min-width: 64rem) {
+    .head h1 {
+      grid-column: 1 / 7;
+    }
+
+    .intro {
+      grid-column: 8 / 13;
+      align-self: end;
+    }
+  }
+
+  :global(.wide img) {
+    width: 100%;
+    height: min(70svh, 50vw);
+    min-height: 18rem;
+    object-fit: cover;
+  }
+
+  :global(.wide figcaption) {
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .steps,
+  .team {
+    padding-top: clamp(5rem, 12vw, 8rem);
+  }
+
+  .steps ol {
+    list-style: none;
+    margin: clamp(2rem, 5vw, 3rem) 0 0;
+    padding: 0;
+    row-gap: 2rem;
+  }
+
+  .steps li {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--grafito);
+  }
+
+  .steps h3 {
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .steps li {
+      grid-column: span 4;
+    }
+  }
+
+  .team ul {
+    list-style: none;
+    margin: clamp(1.5rem, 4vw, 2.5rem) 0 0;
+    padding: 0;
+    border-bottom: 1px solid var(--piedra);
+  }
+
+  .team li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 2rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--piedra);
+  }
+
+  .tn {
+    font-size: 1.1875rem;
+    font-weight: 500;
+  }
+
+  .note {
+    margin-top: 1rem;
+  }
+
+  .cta {
+    padding-top: clamp(3rem, 7vw, 5rem);
+  }
+</style>

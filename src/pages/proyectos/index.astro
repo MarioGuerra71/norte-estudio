@@ -1,0 +1,23 @@
+---
+import Base from "../../layouts/Base.astro";
+import ProjectIndex from "../../components/ProjectIndex.astro";
+import { projects } from "../../data/projects.js";
+---
+
+<Base title="Proyectos · Norte Estudio (demo)" description="Índice de proyectos de Norte Estudio: vivienda, rehabilitación y equipamientos en Sevilla y Huelva. Estudio ficticio de demostración.">
+  <section class="wrap head">
+    <h1 class="h-display">Proyectos</h1>
+    <p class="lead muted">{projects.length} obras y proyectos entre 2020 y 2025. Pasa por un nombre para ver la obra.</p>
+  </section>
+  <section class="wrap" aria-label="Índice de proyectos">
+    <ProjectIndex />
+  </section>
+</Base>
+
+<style>
+  .head {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(2rem, 5vw, 3.5rem);
+  }
+</style>

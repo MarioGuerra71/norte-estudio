@@ -1,0 +1,250 @@
+---
+import Base from "../layouts/Base.astro";
+import Photo from "../components/Photo.astro";
+import Arrow from "../components/Arrow.astro";
+import ProjectIndex from "../components/ProjectIndex.astro";
+import { findProject } from "../data/projects.js";
+
+const hero = findProject("casa-patio");
+const featured = ["viviendas-celosia", "centro-de-la-luz", "casa-de-postas"].map(findProject);
+const principles = [
+  ["Luz antes que forma", "Cada proyecto empieza por dónde entra el sol y dónde no debe entrar. La forma llega después."],
+  ["Materiales del lugar", "Cal, ladrillo, piedra y madera que saben hacer los oficios de aquí y que envejecen bien."],
+  ["Construir menos, mejor", "Si un muro sirve, se queda. Rehabilitar suele ser la decisión más sostenible."],
+];
+---
+
+<Base
+  title="Norte Estudio · Arquitectura en Sevilla (demo)"
+  description="Estudio de arquitectura en Sevilla: vivienda, rehabilitación y equipamientos con luz, cal y materiales del lugar. Estudio ficticio: proyecto de demostración."
+>
+  <section class="wrap hero">
+    <h1 class="h-display">Construimos con luz, cal y lo que ya estaba en pie.</h1>
+    <div class="hero-sub">
+      <p class="lead muted">Estudio de arquitectura en Sevilla. Vivienda, rehabilitación y equipamientos desde 2014.</p>
+      <a href="/proyectos" class="link-arrow">Ver proyectos <Arrow /></a>
+    </div>
+  </section>
+
+  <a href={`/proyectos/${hero.slug}`} class="hero-photo">
+    <Photo name={hero.hero} alt={hero.alts[hero.hero]} sizes="100vw" eager class={`grow vt-${hero.slug}`} />
+    <span class="wrap hero-cap small">
+      <span>{hero.title}</span>
+      <span class="muted">{hero.place} · {hero.year}</span>
+    </span>
+  </a>
+
+  <section class="wrap featured" aria-labelledby="sel-title">
+    <h2 id="sel-title" class="h-section">Proyectos seleccionados</h2>
+    {
+      featured.map((p, i) => (
+        <article class:list={["feat grid reveal", i % 2 && "feat--rev"]}>
+          <a href={`/proyectos/${p.slug}`} class="feat-img" tabindex="-1" aria-hidden="true">
+            <Photo name={p.hero} alt="" sizes="(min-width: 64rem) 58vw, 100vw" class={`vt-${p.slug}`} />
+          </a>
+          <div class="feat-txt">
+            <h3 class="feat-title">
+              <a href={`/proyectos/${p.slug}`}>{p.title}</a>
+            </h3>
+            <p class="small muted">
+              {p.place} · {p.year} · {p.program}
+            </p>
+            <p class="feat-sum">{p.summary}</p>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="wrap approach" aria-labelledby="ap-title">
+    <h2 id="ap-title" class="h-section">Cómo trabajamos</h2>
+    <ul class="grid">
+      {
+        principles.map(([t, d]) => (
+          <li class="reveal">
+            <h3>{t}</h3>
+            <p class="muted">{d}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap all" aria-labelledby="all-title">
+    <div class="all-head">
+      <h2 id="all-title" class="h-section">Todos los proyectos</h2>
+      <a href="/proyectos" class="link-arrow">Índice completo <Arrow /></a>
+    </div>
+    <ProjectIndex transitions={false} />
+  </section>
+
+  <section class="wrap cta reveal">
+    <p class="h-section">¿Tienes un solar, una casa vieja o una idea?</p>
+    <a href="/contacto" class="btn">Cuéntanos tu proyecto <Arrow /></a>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 9vw, 7rem) clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .hero h1 {
+    max-width: 16ch;
+  }
+
+  .hero-sub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+    margin-top: 2rem;
+  }
+
+  .hero-photo {
+    display: block;
+    text-decoration: none;
+  }
+
+  .hero-photo :global(img) {
+    width: 100%;
+    height: min(82svh, 56vw);
+    min-height: 22rem;
+    object-fit: cover;
+  }
+
+  .hero-cap {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .featured {
+    padding-top: clamp(5rem, 12vw, 9rem);
+  }
+
+  .featured > h2 {
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .feat {
+    row-gap: 1.25rem;
+    align-items: end;
+  }
+
+  .feat + .feat {
+    margin-top: clamp(3.5rem, 9vw, 7rem);
+  }
+
+  .feat-img,
+  .feat-txt {
+    grid-column: 1 / -1;
+  }
+
+  .feat-img :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .feat-title {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+  }
+
+  .feat-title a {
+    text-decoration: none;
+  }
+
+  .feat-title a:hover {
+    text-decoration: underline;
+  }
+
+  .feat-txt {
+    display: grid;
+    gap: 0.6rem;
+    max-width: 30rem;
+  }
+
+  .feat-sum {
+    margin-top: 0.4rem;
+  }
+
+  @media (min-width: 64rem) {
+    .feat-img {
+      grid-column: 1 / 8;
+    }
+
+    .feat-txt {
+      grid-column: 9 / 13;
+    }
+
+    .feat--rev .feat-img {
+      grid-column: 6 / 13;
+      grid-row: 1;
+    }
+
+    .feat--rev .feat-txt {
+      grid-column: 1 / 5;
+      grid-row: 1;
+    }
+  }
+
+  .approach {
+    padding-top: clamp(5rem, 12vw, 9rem);
+  }
+
+  .approach ul {
+    list-style: none;
+    margin: clamp(2rem, 5vw, 3rem) 0 0;
+    padding: 0;
+    row-gap: 2rem;
+  }
+
+  .approach li {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.6rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--grafito);
+  }
+
+  .approach h3 {
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .approach li {
+      grid-column: span 4;
+    }
+  }
+
+  .all {
+    padding-top: clamp(5rem, 12vw, 9rem);
+  }
+
+  .all-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+    margin-top: clamp(5rem, 12vw, 9rem);
+    padding-top: clamp(2rem, 5vw, 3rem);
+    border-top: 1px solid var(--grafito);
+  }
+
+  .cta p {
+    max-width: 22ch;
+  }
+</style>

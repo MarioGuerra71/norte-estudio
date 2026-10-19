@@ -1,0 +1,178 @@
+---
+import Base from "../../layouts/Base.astro";
+import Photo from "../../components/Photo.astro";
+import Arrow from "../../components/Arrow.astro";
+import { projects, neighbours, formatArea } from "../../data/projects.js";
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const { prev, next } = neighbours(p.slug);
+---
+
+<Base title={`${p.title} · Norte Estudio (demo)`} description={`${p.title}, ${p.place} (${p.year}). ${p.summary}`}>
+  <article>
+    <header class="wrap head">
+      <a href="/proyectos" class="back small"><span class="back-arrow"><Arrow /></span>Todos los proyectos</a>
+      <h1 class="h-display">{p.title}</h1>
+    </header>
+
+    <Photo name={p.hero} alt={p.alts[p.hero]} sizes="100vw" eager credit class={`hero vt-${p.slug}`} />
+
+    <div class="wrap grid body">
+      <dl class="facts">
+        <div><dt>Ubicación</dt><dd>{p.place}</dd></div>
+        <div><dt>Año</dt><dd class="num">{p.year}</dd></div>
+        <div><dt>Superficie</dt><dd class="num">{formatArea(p.area)}</dd></div>
+        <div><dt>Programa</dt><dd>{p.program}</dd></div>
+        <div><dt>Estado</dt><dd>{p.status}</dd></div>
+      </dl>
+      <div class="text">
+        <p class="lead">{p.summary}</p>
+        {p.text.map((t) => <p>{t}</p>)}
+      </div>
+    </div>
+
+    <div class="wrap grid gallery">
+      {p.gallery.map((g, i) => <Photo name={g} alt={p.alts[g]} sizes="(min-width: 64rem) 50vw, 100vw" credit class={`g g-${i} reveal`} />)}
+    </div>
+  </article>
+
+  <nav class="wrap pager" aria-label="Otros proyectos">
+    <a href={`/proyectos/${prev.slug}`} rel="prev">
+      <span class="small muted">Anterior</span>
+      <span class="pt">{prev.title}</span>
+    </a>
+    <a href={`/proyectos/${next.slug}`} rel="next" class="nx">
+      <span class="small muted">Siguiente</span>
+      <span class="pt">{next.title} <Arrow /></span>
+    </a>
+  </nav>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(1.75rem, 4vw, 3rem);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    width: fit-content;
+    text-decoration: none;
+  }
+
+  .back-arrow {
+    display: inline-flex;
+    rotate: 180deg;
+  }
+
+  :global(.hero) {
+    margin: 0;
+  }
+
+  :global(.hero img) {
+    width: 100%;
+    height: min(80svh, 58vw);
+    min-height: 20rem;
+    object-fit: cover;
+  }
+
+  :global(.hero figcaption) {
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .body {
+    row-gap: 2.5rem;
+    padding-top: clamp(3rem, 7vw, 5rem);
+  }
+
+  .facts {
+    grid-column: 1 / -1;
+    align-self: start;
+    border-bottom: 1px solid var(--piedra);
+  }
+
+  .text {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 1.25rem;
+    max-width: 62ch;
+  }
+
+  @media (min-width: 64rem) {
+    .facts {
+      grid-column: 1 / 5;
+      position: sticky;
+      top: 2rem;
+    }
+
+    .text {
+      grid-column: 6 / 12;
+    }
+  }
+
+  .gallery {
+    row-gap: 1.5rem;
+    padding-top: clamp(4rem, 9vw, 7rem);
+  }
+
+  .gallery :global(.g) {
+    grid-column: 1 / -1;
+  }
+
+  .gallery :global(.g img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  @media (min-width: 64rem) {
+    .gallery :global(.g-0) {
+      grid-column: 1 / 7;
+    }
+
+    .gallery :global(.g-1) {
+      grid-column: 8 / 13;
+      margin-top: 8rem;
+    }
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid var(--grafito);
+  }
+
+  .pager a {
+    display: grid;
+    gap: 0.25rem;
+    padding-top: 1.1rem;
+    text-decoration: none;
+  }
+
+  .pager .nx {
+    text-align: right;
+    justify-items: end;
+  }
+
+  .pt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+</style>

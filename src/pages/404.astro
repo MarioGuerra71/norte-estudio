@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import Arrow from "../components/Arrow.astro";
+---
+
+<Base title="Página no encontrada · Norte Estudio (demo)" description="Esta página no existe.">
+  <section class="wrap nf">
+    <h1 class="h-display">Esta página no está construida.</h1>
+    <p class="lead muted">Puede que el enlace sea antiguo o que la dirección tenga una errata.</p>
+    <a href="/proyectos" class="link-arrow">Ver los proyectos <Arrow /></a>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+    padding-block: clamp(4rem, 12vw, 9rem);
+  }
+</style>

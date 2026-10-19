@@ -1,0 +1,290 @@
+/* Norte Estudio · monografía de arquitectura: cal, piedra y grafito, un solo acento ladrillo. */
+
+:root {
+  --cal: #f5f3ef;
+  --papel: #fbfaf8;
+  --grafito: #1c1b19;
+  --gris: #57534d; /* texto secundario */
+  --piedra: #cfc8bd; /* filetes */
+  --ladrillo: #9c4f33; /* solo estados: página actual, hover, foco */
+
+  --sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --max: 90rem;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+  accent-color: var(--grafito);
+  scrollbar-color: var(--piedra) var(--cal);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cal);
+  color: var(--grafito);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--ladrillo);
+}
+
+::selection {
+  background: var(--grafito);
+  color: var(--cal);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: color 160ms ease;
+}
+
+a:hover {
+  color: var(--ladrillo);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ladrillo);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: 0.5rem;
+  z-index: 10;
+  padding: 0.5rem 0.9rem;
+  background: var(--grafito);
+  color: var(--cal);
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+/* ---------- Estructura ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2vw, 2rem);
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--piedra);
+  margin: 0;
+}
+
+.small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.muted {
+  color: var(--gris);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.h-display {
+  font-size: clamp(2.25rem, 4.6vw, 4.25rem);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+.h-section {
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+}
+
+.lead {
+  font-size: clamp(1.1875rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
+  max-width: 44ch;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.link-arrow svg {
+  transition: transform 200ms var(--ease);
+}
+
+.link-arrow:hover svg {
+  transform: translateX(3px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border: 1px solid var(--grafito);
+  background: var(--grafito);
+  color: var(--cal);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.btn:hover {
+  background: var(--ladrillo);
+  border-color: var(--ladrillo);
+}
+
+/* ---------- Pie de foto y ficha técnica ---------- */
+
+figure {
+  margin: 0;
+}
+
+figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.8125rem;
+  color: var(--gris);
+}
+
+.facts {
+  margin: 0;
+  display: grid;
+}
+
+.facts > div {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1rem;
+  padding-block: 0.7rem;
+  border-top: 1px solid var(--piedra);
+}
+
+.facts dt {
+  color: var(--gris);
+  font-size: 0.9375rem;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+/* ---------- Movimiento nativo ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Transiciones entre páginas del propio navegador, sin JavaScript */
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-group(*) {
+    animation-duration: 520ms;
+    animation-timing-function: var(--ease);
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+
+    .grow {
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+
+@keyframes grow {
+  from {
+    clip-path: inset(0 6% 0 6%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* La foto de cada proyecto "viaja" entre el índice y su página: un nombre por proyecto */
+.vt-casa-patio { view-transition-name: casa-patio; }
+.vt-viviendas-celosia { view-transition-name: viviendas-celosia; }
+.vt-casa-aljarafe { view-transition-name: casa-aljarafe; }
+.vt-centro-de-la-luz { view-transition-name: centro-de-la-luz; }
+.vt-casa-de-postas { view-transition-name: casa-de-postas; }
+.vt-piso-alameda { view-transition-name: piso-alameda; }

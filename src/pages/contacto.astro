@@ -1,0 +1,268 @@
+---
+import Base from "../layouts/Base.astro";
+import { TYPES, BUDGETS } from "../lib/contact.js";
+---
+
+<Base title="Contacto · Norte Estudio (demo)" description="Cuéntanos tu proyecto: vivienda, reforma o equipamiento. Formulario de contacto de Norte Estudio. Estudio ficticio de demostración.">
+  <section class="wrap grid page">
+    <div class="side">
+      <h1 class="h-display">Cuéntanos tu proyecto.</h1>
+      <p class="lead muted">Respondemos en dos o tres días laborables. La primera visita al lugar no tiene coste.</p>
+      <dl class="facts">
+        <div><dt>Estudio</dt><dd>C/ Feria, 88<br />41003 Sevilla</dd></div>
+        <div><dt>Correo</dt><dd><a href="mailto:hola@norteestudio.example">hola@norteestudio.example</a></dd></div>
+        <div><dt>Horario</dt><dd>Lunes a viernes, 9:00–14:30</dd></div>
+      </dl>
+    </div>
+
+    <div class="main-col">
+      <noscript><p class="nojs">El formulario necesita JavaScript. También puedes escribirnos a hola@norteestudio.example.</p></noscript>
+      <form id="contact" novalidate>
+        <div class="row2">
+          <div class="field">
+            <label for="c-name">Nombre</label>
+            <input id="c-name" name="name" autocomplete="name" maxlength="80" required aria-describedby="c-name-err" />
+            <p id="c-name-err" class="err" hidden></p>
+          </div>
+          <div class="field">
+            <label for="c-email">Correo</label>
+            <input id="c-email" name="email" type="email" autocomplete="email" maxlength="120" required aria-describedby="c-email-err" />
+            <p id="c-email-err" class="err" hidden></p>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="c-type">Tipo de proyecto</label>
+            <select id="c-type" name="type" required aria-describedby="c-type-err">
+              <option value="">Elige…</option>
+              {Object.entries(TYPES).map(([v, l]) => <option value={v}>{l}</option>)}
+            </select>
+            <p id="c-type-err" class="err" hidden></p>
+          </div>
+          <div class="field">
+            <label for="c-budget">Presupuesto aproximado</label>
+            <select id="c-budget" name="budget" aria-describedby="c-budget-err">
+              {Object.entries(BUDGETS).map(([v, l]) => <option value={v}>{l}</option>)}
+            </select>
+            <p id="c-budget-err" class="err" hidden></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-message">Mensaje</label>
+          <textarea id="c-message" name="message" rows="6" maxlength="1500" required aria-describedby="c-message-hint c-message-err"></textarea>
+          <p id="c-message-hint" class="small muted">Dónde está el lugar, qué te gustaría hacer y cuándo. Mínimo 20 caracteres.</p>
+          <p id="c-message-err" class="err" hidden></p>
+        </div>
+        <div class="field check">
+          <input id="c-privacy" name="privacy" type="checkbox" required aria-describedby="c-privacy-err" />
+          <label for="c-privacy">Acepto que usen mis datos solo para responder a este mensaje.</label>
+          <p id="c-privacy-err" class="err" hidden></p>
+        </div>
+        <div class="send">
+          <button type="submit" class="btn">Enviar mensaje</button>
+          <p class="small muted">Demostración: el formulario se valida en tu navegador y no envía nada.</p>
+        </div>
+      </form>
+      <div id="sent" class="sent" hidden tabindex="-1">
+        <h2 class="h-section">Gracias, <span id="sent-name"></span>.</h2>
+        <p class="muted">
+          Es un envío simulado: no ha salido ningún dato de tu navegador. En un estudio real, aquí te diríamos que te
+          responderemos en dos o tres días.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { validateContact } from "../lib/contact.js";
+
+  const form = document.getElementById("contact") as HTMLFormElement;
+  const sent = document.getElementById("sent")!;
+  const touched = new Set<string>();
+  const read = () => Object.fromEntries(new FormData(form).entries());
+
+  function show(onlyTouched: boolean) {
+    const { errors } = validateContact(read());
+    for (const name of ["name", "email", "type", "budget", "message", "privacy"]) {
+      const err = document.getElementById(`c-${name}-err`)!;
+      const msg = !onlyTouched || touched.has(name) ? errors[name as keyof typeof errors] : undefined;
+      err.hidden = !msg;
+      err.textContent = msg ?? "";
+      form.elements.namedItem(name) instanceof HTMLElement &&
+        (form.elements.namedItem(name) as HTMLElement).setAttribute("aria-invalid", String(Boolean(msg)));
+    }
+    return errors;
+  }
+
+  form.addEventListener("focusout", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name) touched.add(t.name);
+    show(true);
+  });
+  form.addEventListener("change", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name) touched.add(t.name);
+    show(true);
+  });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const errors = show(false);
+    const first = Object.keys(errors)[0];
+    if (first) {
+      (form.elements.namedItem(first) as HTMLElement).focus();
+      return;
+    }
+    document.getElementById("sent-name")!.textContent = String(read().name).trim();
+    form.hidden = true;
+    sent.hidden = false;
+    sent.focus();
+  });
+</script>
+
+<style>
+  .page {
+    row-gap: 3rem;
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+  }
+
+  .side,
+  .main-col {
+    grid-column: 1 / -1;
+  }
+
+  .side {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+  }
+
+  @media (min-width: 64rem) {
+    .side {
+      grid-column: 1 / 6;
+    }
+
+    .main-col {
+      grid-column: 7 / 13;
+      padding-top: 0.75rem;
+    }
+  }
+
+  form {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .row2 {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  @media (min-width: 40rem) {
+    .row2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+  }
+
+  label {
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+
+  input:not([type="checkbox"]),
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--piedra);
+    border-radius: 0;
+    background: var(--papel);
+    color: var(--grafito);
+    font: inherit;
+  }
+
+  select {
+    appearance: none;
+    padding-right: 2.5rem;
+    background: var(--papel)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231c1b19' stroke-width='1.5'/%3E%3C/svg%3E")
+      no-repeat right 0.9rem center / 12px 8px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: var(--gris);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--ladrillo);
+    outline-offset: 1px;
+    border-color: var(--grafito);
+  }
+
+  [aria-invalid="true"] {
+    border-color: var(--ladrillo);
+  }
+
+  .err {
+    font-size: 0.875rem;
+    color: var(--ladrillo);
+  }
+
+  .check {
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    column-gap: 0.7rem;
+  }
+
+  .check input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0.2rem 0 0;
+  }
+
+  .check label {
+    font-weight: 400;
+  }
+
+  .check .err {
+    grid-column: 1 / -1;
+  }
+
+  .send {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+
+  .sent {
+    display: grid;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--grafito);
+  }
+
+  .sent:focus {
+    outline: none;
+  }
+
+  .nojs {
+    padding: 1rem;
+    border: 1px solid var(--piedra);
+  }
+</style>

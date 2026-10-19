@@ -1,0 +1,40 @@
+---
+// Foto de proyecto optimizada (AVIF/WebP en varios tamaños), con su crédito de Unsplash.
+import { Picture } from "astro:assets";
+import { images } from "../lib/images.js";
+import { credits } from "../data/projects.js";
+
+interface Props {
+  name: string;
+  alt: string;
+  sizes: string;
+  eager?: boolean;
+  class?: string;
+  credit?: boolean;
+}
+
+const { name, alt, sizes, eager = false, class: className, credit = false } = Astro.props;
+const src = images[name];
+const [author, id] = credits[name];
+---
+
+<figure class={className}>
+  <Picture
+    src={src}
+    alt={alt}
+    sizes={sizes}
+    widths={[480, 800, 1200, 1800].filter((w) => w <= src.width)}
+    formats={["avif", "webp"]}
+    quality={70}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
+    decoding="async"
+  />
+  {
+    credit && (
+      <figcaption>
+        Foto: <a href={`https://unsplash.com/photos/${id}`}>{author}</a> / Unsplash
+      </figcaption>
+    )
+  }
+</figure>
