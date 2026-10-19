@@ -122,6 +122,11 @@ const { transitions = true } = Astro.props;
       color: var(--ladrillo);
     }
 
+    /* El anillo de foco se dibuja dentro de la fila, sin pisar los filetes */
+    .row a:focus-visible {
+      outline-offset: -3px;
+    }
+
     .row a:hover .t,
     .row a:focus-visible .t {
       translate: 0.5rem 0;

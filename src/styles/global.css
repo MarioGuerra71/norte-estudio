@@ -5,7 +5,8 @@
   --papel: #fbfaf8;
   --grafito: #1c1b19;
   --gris: #57534d; /* texto secundario */
-  --piedra: #cfc8bd; /* filetes */
+  --piedra: #cfc8bd; /* filetes (solo líneas decorativas) */
+  --borde-campo: #8a8378; /* borde de campos de formulario: ≥ 3:1 sobre cal y papel */
   --ladrillo: #9c4f33; /* solo estados: página actual, hover, foco */
 
   --sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;

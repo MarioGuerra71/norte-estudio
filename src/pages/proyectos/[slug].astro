@@ -43,7 +43,7 @@ const { prev, next } = neighbours(p.slug);
   <nav class="wrap pager" aria-label="Otros proyectos">
     <a href={`/proyectos/${prev.slug}`} rel="prev">
       <span class="small muted">Anterior</span>
-      <span class="pt">{prev.title}</span>
+      <span class="pt"><span class="back-arrow"><Arrow /></span>{prev.title}</span>
     </a>
     <a href={`/proyectos/${next.slug}`} rel="next" class="nx">
       <span class="small muted">Siguiente</span>
@@ -157,6 +157,7 @@ const { prev, next } = neighbours(p.slug);
 
   .pager a {
     display: grid;
+    align-content: start;
     gap: 0.25rem;
     padding-top: 1.1rem;
     text-decoration: none;
