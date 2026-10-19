@@ -10,8 +10,9 @@ interface Props {
 }
 
 const { title, description, image = "/og.jpg" } = Astro.props;
-const canonical = new URL(Astro.url.pathname.replace(/\/$/, "") || "/", Astro.site).href;
-const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+// Con build.format "file" la ruta llega como /index.html o /estudio.html: se limpia para el canonical
+const path = Astro.url.pathname.replace(/(\/index)?\.html$/, "").replace(/\/$/, "") || "/";
+const canonical = new URL(path, Astro.site).href;
 const nav = [
   { href: "/proyectos", label: "Proyectos" },
   { href: "/estudio", label: "Estudio" },
