@@ -45,6 +45,10 @@ body {
   color: var(--cal);
 }
 
+[hidden] {
+  display: none !important;
+}
+
 img {
   display: block;
   max-width: 100%;

@@ -23,7 +23,7 @@ const { transitions = true } = Astro.props;
           <span class="y num muted">{p.year}</span>
           <span class="a num muted">{formatArea(p.area)}</span>
           <span class:list={["thumb", transitions && `vt-${p.slug}`]} aria-hidden="true">
-            <Picture src={images[p.hero]} alt="" widths={[240, 480, 900]} sizes="(min-width: 64rem) 34vw, 96px" formats={["avif", "webp"]} quality={65} loading="lazy" decoding="async" />
+            <Picture src={images[p.hero]} alt="" widths={[240, 480, 900]} sizes="(min-width: 64rem) 40vw, 96px" formats={["avif", "webp"]} quality={65} loading="lazy" decoding="async" />
           </span>
         </a>
       </li>
